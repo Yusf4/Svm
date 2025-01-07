@@ -24,3 +24,19 @@ accuracy=accuracy_score(y_test,predictions)
 print(f" accuracy:{accuracy:.2f}")
 print("\nClassification Report:")
 print(classification_report(y_test,predictions))
+
+
+def plot_decision_boundary(clf,X,y):
+    x_min,x_max=X[:,0].min()-1,X[:,0].max()+1
+    y_min,y_max=X[:, 1].min()-1,X[:, 1].max()+ 1
+    xx,yy =np.meshgrid(np.arange(x_min,x_max,0.01),np.arange(y_min,y_max,0.01))
+
+    Z=clf.predict(np.c_[xx.ravel(),yy.ravel()])
+    Z=Z.reshape(xx.shape)
+
+    plt.contourf(xx,yy,Z,alpha=0.8,cmap=plt.cm.Paired)
+    plt.scatter(X[:, 0],X[:, 1],c=y,edgecolors='k',cmap=plt.cm.Paired)
+    plt.xlabel("feature 1")
+    plt.ylabel("feature 2")
+    plt.show()
+plot_decision_boundary(svm_model,X_test,y_test)
